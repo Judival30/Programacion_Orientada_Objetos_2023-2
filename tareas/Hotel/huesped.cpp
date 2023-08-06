@@ -30,3 +30,10 @@ int Huesped::getDinero()
 {
     return dinero;
 }
+
+void Huesped::checkOutHuesped()
+{
+    nombre = "";
+    dinero = 0;
+    tel = 0;
+}

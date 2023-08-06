@@ -3,9 +3,9 @@
 void menuReserva(Hotel &h)
 {
     int opc = 0;
-    while (opc != 3)
+    while (opc != 4)
     {
-        cout << "Menu de reserva \n1.Crear reserva \n2.Ver info hotel \n3.Salir \n>>";
+        cout << "Menu de reserva \n1.Crear reserva \n2.Ver info hotel \n3.Check Out \n4.Salir \n>>";
         cin >> opc;
         switch (opc)
         {
@@ -14,7 +14,11 @@ void menuReserva(Hotel &h)
             break;
         case 2:
             h.printInfoHotel();
+            break;
         case 3:
+            h.checkOut();
+            break;
+        case 4:
             cout << "Saliendo del menu" << endl;
             break;
 

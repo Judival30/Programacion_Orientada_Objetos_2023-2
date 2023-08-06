@@ -22,6 +22,7 @@ public:
     string getName();
     int getTel();
     int getDinero();
+    void checkOutHuesped();
 };
 
 #endif

@@ -23,6 +23,7 @@ public:
     void printInfoHotel();
     // acciones
     void reserva();
+    void checkOut();
 };
 
 #endif

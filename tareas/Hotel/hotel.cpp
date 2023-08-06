@@ -75,3 +75,22 @@ void Hotel::reserva()
     }
     cout << endl;
 }
+
+void Hotel::checkOut()
+{
+    int opc;
+    bool flag = true;
+    while (flag)
+    {
+        cout << "Ingresar numero de la habitacion para checkout" << endl;
+        cin >> opc;
+        if (habitaciones[opc].getEstado())
+        {
+            huespedes[opc].checkOutHuesped();
+            habitaciones[opc].setDesocupado();
+            flag = false;
+        }
+        else
+            cout << "Error: la habitacion seleccionada esta desocupada" << endl;
+    }
+}
