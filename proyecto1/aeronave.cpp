@@ -35,19 +35,19 @@ void Aeronave::eliminarVuelo()
 void Aeronave::despegar()
 {
     cout << marca << ": Despegando." << endl;
-    enviarMensaje("Despegando");
+    enviarMensaje("Despegando " + marca);
 }
 
 void Aeronave::aterrizar()
 {
     cout << marca << ": Aterrizando." << endl;
-    enviarMensaje("Aterrizando");
+    enviarMensaje("Aterrizando " + marca);
 }
 
 void Aeronave::actualizarPosicion(const string &mensaje)
 {
     cout << marca << ": Actualizando posicion a " << mensaje << endl;
-    enviarMensaje("Nueva posición: " + mensaje);
+    enviarMensaje("Nueva posicion: " + marca + mensaje);
 }
 
 void Aeronave::recibirMensaje(const string &mensaje)
@@ -73,7 +73,9 @@ void Aeronave::agregarVuelo(Vuelos *v)
     if (vuelos.size() < 3 && flag)
         vuelos.push_back(v);
     else
-        printf("La aeronave esta totalmente asignada\n");
+        estado = false;
+    if (vuelos.size() == 3)
+        estado = false;
 }
 
 void Aeronave::printInfo()

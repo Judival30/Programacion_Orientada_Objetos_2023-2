@@ -7,44 +7,115 @@ void printLinea()
     printf("===========================================================================================\n\n");
 }
 
+Vuelos obtenerDatosVuelo()
+{
+    int id, capacidad, numPasajeros;
+    string fecha, ciudadOrigen, ciudadDestino, hora, ej;
+
+    try
+    {
+        cout << "Ingrese la identificacion del vuelo: ";
+        cin >> ej;
+        id = stoi(ej);
+    }
+    catch (const invalid_argument &e)
+    {
+        cerr << "Error argumento invalido " << e.what() << "Ingrese un numero entero" << endl;
+        cin >> id;
+    }
+
+    cin.ignore(); // Limpiar el buffer de entrada
+
+    cout << "Ingrese la fecha del vuelo (YYYY-MM-DD): ";
+    getline(cin, fecha);
+
+    cout << "Ingrese la ciudad de destino: ";
+    getline(cin, ciudadDestino);
+
+    cout << "Ingrese la hora del vuelo (HH:MM): ";
+    getline(cin, hora);
+
+    // Crear y devolver un objeto Vuelos con los datos ingresados
+    Vuelos tmp(id, fecha, ciudadDestino, hora);
+    return tmp;
+}
+
 int main()
 {
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
     Aeropuerto &aeropuerto = Aeropuerto::obtenerInstancia();
 
     Aeronave *jet = new JetPrivado("Jet", 100, &aeropuerto.torreControl);
     Aeronave *Heli = new Helicoptero("Helicoptero", 6, &aeropuerto.torreControl);
     Aeronave *avion = new Avion("Avion", 6, &aeropuerto.torreControl);
 
-    vector<Aeronave *> aviones;
-    aviones.push_back(jet);
-    aviones.push_back(Heli);
-    aviones.push_back(avion);
-
     aeropuerto.torreControl.mostrarAviones();
 
-    PuertaEmbarque puerta1(1);
-    PuertaEmbarque puerta2(2);
-    PuertaEmbarque puerta3(3);
+    cout << endl;
 
-    aeropuerto.torreControl.asignarPuertaDeEmbarque(jet, puerta1.identificacion);
-    aeropuerto.torreControl.asignarPuertaDeEmbarque(Heli, puerta2.identificacion);
-    aeropuerto.torreControl.asignarPuertaDeEmbarque(avion, puerta3.identificacion);
+    Vuelos *v1;
+    Vuelos *v2;
+    Vuelos *v3;
+    Vuelos *v4;
 
-    jet->despegar();
-    Heli->despegar();
-    Heli->despegar();
+    printf("Agregue vuelos\n");
+    int id, capacidad, numPasajeros;
+    string fecha, ciudadOrigen, ciudadDestino, hora, ej;
 
-    jet->actualizarPosicion("Lat: 40.7128, Lon: -74.0060");
-    Heli->actualizarPosicion("Lat: 34.0522, Lon: -118.2437");
-    avion->actualizarPosicion("Lat: 51.5074, Lon: -0.1278");
+    try
+    {
+        cout << "Ingrese la identificacion del vuelo: ";
+        cin >> ej;
+        id = stoi(ej);
+    }
+    catch (const invalid_argument &e)
+    {
+        cerr << "Error argumento invalido " << e.what() << "Ingrese un numero entero" << endl;
+        cin >> id;
+    }
 
-    jet->aterrizar();
-    Heli->aterrizar();
-    avion->aterrizar();
+    cin.ignore(); // Limpiar el buffer de entrada
 
-    puerta1.anunciarEmbarque("Puerta 1");
-    puerta2.anunciarEmbarque("Puerta 2");
-    puerta3.anunciarEmbarque("Puerta 3");
+    cout << "Ingrese la fecha del vuelo (YYYY-MM-DD): ";
+    getline(cin, fecha);
+
+    cout << "Ingrese la ciudad de destino: ";
+    getline(cin, ciudadDestino);
+
+    cout << "Ingrese la hora del vuelo (HH:MM): ";
+    getline(cin, hora);
+
+    // Crear y devolver un objeto Vuelos con los datos ingresados
+    Vuelos *tmp = new Vuelos(id, fecha, ciudadDestino, hora);
+    aeropuerto.agregarDestino(tmp);
+
+    tmp->printVuelo();
+
+    aeropuerto.agregarDestino(v1);
+    aeropuerto.agregarDestino(v2);
+    aeropuerto.agregarDestino(v3);
+    aeropuerto.agregarDestino(v4);
+
+    aeropuerto.asignarVuelo();
+
+    aeropuerto.torreControl.simulacion();
+    /*
+        jet->despegar();
+        Heli->despegar();
+        Heli->despegar();
+
+        jet->actualizarPosicion("Lat: 40.7128, Lon: -74.0060");
+        Heli->actualizarPosicion("Lat: 34.0522, Lon: -118.2437");
+        avion->actualizarPosicion("Lat: 51.5074, Lon: -0.1278");
+
+        jet->aterrizar();
+        Heli->aterrizar();
+        avion->aterrizar();
+
+        puerta1.anunciarEmbarque("Puerta 1");
+        puerta2.anunciarEmbarque("Puerta 2");
+        puerta3.anunciarEmbarque("Puerta 3"); */
 
     bool salir = true;
     int selec;

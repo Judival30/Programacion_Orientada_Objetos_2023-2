@@ -5,6 +5,8 @@ JetPrivado::JetPrivado(const string &marca, int capacidad, MediadorTrafico *medi
     propietario = "";
     listaServicios.clear();
     listaDestinos.clear();
+    this->marca = marca;
+    this->capacidad = capacidad;
 }
 
 string JetPrivado::getPropietario()

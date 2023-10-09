@@ -6,6 +6,7 @@ void printLinea();
 void reserva();
 void modificarAeropuerto();
 void agregarNaves();
+void asignarVuelos();
 
 Aeropuerto &aeropuerto = Aeropuerto::obtenerInstancia();
 Aeronave *jet = new JetPrivado("Jet", 100, &aeropuerto.torreControl);
@@ -14,6 +15,13 @@ Aeronave *avion = new Avion("Avion", 6, &aeropuerto.torreControl);
 
 int main()
 {
+    Vuelos *v1;
+    Vuelos *v2;
+    Vuelos *v3;
+    aeropuerto.agregarDestino(v1);
+    aeropuerto.agregarDestino(v2);
+    aeropuerto.agregarDestino(v3);
+
     bool salir = true;
     int selec;
     printLinea();
@@ -37,6 +45,8 @@ int main()
             }
             break;
         case 3:
+            aeropuerto.asignarVuelo();
+            aeropuerto.printDestinos();
             aeropuerto.torreControl.simulacion();
             break;
         case 4:
@@ -67,9 +77,6 @@ void reserva()
         cin >> s;
         switch (s)
         {
-        case 1:
-            flag = false;
-            break;
         case 2:
             pasajero.obtenerDatosPasajero();
             break;
@@ -78,6 +85,10 @@ void reserva()
             break;
         }
     }
+}
+
+void asignarVuelos()
+{
 }
 
 void modificarAeropuerto()
@@ -120,7 +131,6 @@ void modificarAeropuerto()
             printLinea();
         }
         // AGREGAR VUELO A AVION
-        aeropuerto.torreControl.seleccionarAeronave(tmp);
         aeropuerto.agregarDestino(tmp);
         break;
     case 2:
@@ -148,6 +158,7 @@ void agregarNaves()
     {
         printf("Agregar: \n1. Avion\n2. Jet\n3. Helicotero\n4. Salir\n");
         cin >> cases;
+        cin.ignore();
         switch (cases)
         {
         case 1:
@@ -157,7 +168,6 @@ void agregarNaves()
             printf("Ingrese la capacidad del avion\n");
             cin >> capacidad;
             tmp = new Avion(n, capacidad, &aeropuerto.torreControl);
-            aeropuerto.torreControl.registrarAvion(tmp);
             // Falta especificar
             break;
         case 2:
@@ -165,7 +175,7 @@ void agregarNaves()
             printf("Ingrese la marca del Jet\n");
             cin >> n;
             printf("Ingrese la capacidad del Jet\n");
-            cin >> n;
+            cin >> capacidad;
             tmp = new JetPrivado(n, capacidad, &aeropuerto.torreControl);
             // Falta especificar
             break;

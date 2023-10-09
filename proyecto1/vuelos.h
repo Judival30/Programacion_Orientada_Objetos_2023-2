@@ -28,7 +28,7 @@ public:
 
     bool disponible();
 
-    Vuelos obtenerDatosVuelo();
+    // void obtenerDatosVuelo();
 };
 
 #endif

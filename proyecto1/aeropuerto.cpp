@@ -18,7 +18,8 @@ void Aeropuerto::printDestinos()
     {
         for (int i = 0; i < vuelos.size(); i++)
         {
-            cout << vuelos[i]->ciudadDestino << endl;
+            cout << i + 1 << "." << endl;
+            vuelos[i]->printVuelo();
         }
     }
 }
@@ -45,4 +46,16 @@ bool Aeropuerto::disponibilidadVuelos()
 bool Aeropuerto::disponibilidadAeronaves()
 {
     return torreControl.disponibilidadNaves();
+}
+
+void Aeropuerto::asignarVuelo()
+{
+    for (int i = 0; i < vuelos.size(); i++)
+    {
+        torreControl.seleccionarAeronave(vuelos[i]);
+    }
+}
+
+Vuelos Aeropuerto::*obtenerVuelo(int pos)
+{
 }

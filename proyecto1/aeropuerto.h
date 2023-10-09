@@ -28,6 +28,8 @@ public:
     void printDestinos();
     bool disponibilidadVuelos();
     bool disponibilidadAeronaves();
+    void asignarVuelo();
+    Vuelos *obtenerVuelo(int pos);
 };
 
 #endif

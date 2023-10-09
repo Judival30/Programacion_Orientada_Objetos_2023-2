@@ -5,10 +5,15 @@ Vuelos::Vuelos()
     ciudadOrigen = "CLO";
     estado = true;
 }
+
 Vuelos::Vuelos(int id, const string &fecha, const string &ciudadDestino, const string &hora)
     : identificacion(id), fecha(fecha),
       ciudadDestino(ciudadDestino), hora(hora),
-      numPasajeros(0) {}
+      numPasajeros(0)
+{
+    ciudadOrigen = "CLO";
+    estado = true;
+}
 
 void Vuelos::agregarPasajero()
 {
@@ -32,14 +37,23 @@ bool Vuelos::disponible()
 {
     return estado;
 }
-
-Vuelos Vuelos::obtenerDatosVuelo()
+/*
+Vuelos obtenerDatosVuelo()
 {
     int id, capacidad, numPasajeros;
-    string fecha, ciudadOrigen, ciudadDestino, hora;
+    string fecha, ciudadOrigen, ciudadDestino, hora, ej;
 
-    cout << "Ingrese la identificacion del vuelo: ";
-    cin >> id;
+    try
+    {
+        cout << "Ingrese la identificacion del vuelo: ";
+        cin >> ej;
+        id = stoi(ej);
+    }
+    catch (const invalid_argument &e)
+    {
+        cerr << "Error argumento invalido " << e.what() << "Ingrese un numero entero" << endl;
+        cin >> id;
+    }
 
     cin.ignore(); // Limpiar el buffer de entrada
 
@@ -53,6 +67,6 @@ Vuelos Vuelos::obtenerDatosVuelo()
     getline(cin, hora);
 
     // Crear y devolver un objeto Vuelos con los datos ingresados
-    Vuelos vuelo(id, fecha, ciudadDestino, hora);
-    return vuelo;
-}
+    Vuelos tmp(id, fecha, ciudadDestino, hora);
+    return tmp;
+} */
