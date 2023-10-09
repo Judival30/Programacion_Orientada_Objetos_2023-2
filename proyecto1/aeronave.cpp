@@ -20,6 +20,18 @@ Aeronave::Aeronave(const string &m, int c, MediadorTrafico *mediator)
 Aeronave::Aeronave()
 {
 }
+
+bool Aeronave::tieneVuelos()
+{
+    if (vuelos.size() > 0)
+        return true;
+    else
+        return false;
+}
+void Aeronave::eliminarVuelo()
+{
+    vuelos.pop_back();
+}
 void Aeronave::despegar()
 {
     cout << marca << ": Despegando." << endl;
@@ -43,25 +55,31 @@ void Aeronave::recibirMensaje(const string &mensaje)
     cout << marca << " recibio mensaje: " << mensaje << endl;
 }
 
-void Aeronave::asignarPuertaDeEmbarque(const string &puerta)
+void Aeronave::asignarPuertaDeEmbarque(int puerta)
 {
     cout << marca << " se dirige a la puerta de embarque: " << puerta << endl;
     puerta_de_embarque = puerta;
 }
 
-void Aeronave::agregarVuelo(Vuelos &v)
+void Aeronave::agregarVuelo(Vuelos *v)
 {
     bool flag = estado;
 
     for (int i = 0; i < vuelos.size() && flag; i++)
     {
-        if (v.identificacion == vuelos[i].identificacion)
+        if (v->identificacion == vuelos[i]->identificacion)
             flag = false;
     }
     if (vuelos.size() < 3 && flag)
         vuelos.push_back(v);
     else
         printf("La aeronave esta totalmente asignada\n");
+}
+
+void Aeronave::printInfo()
+{
+    cout << "Marca: " << marca << endl
+         << "Capacidad: " << capacidad << endl;
 }
 
 int Aeronave::getCapacidad()

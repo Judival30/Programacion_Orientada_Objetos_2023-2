@@ -11,3 +11,8 @@ string JetPrivado::getPropietario()
 {
     return this->propietario;
 }
+
+void JetPrivado::printInfo()
+{
+    Aeronave::printInfo();
+}

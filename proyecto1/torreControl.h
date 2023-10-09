@@ -1,29 +1,43 @@
 #ifndef TORRE_CONTROL
 #define TORRE_CONTROL
 
-#include <iostream> 
+#include <iostream>
+#include <cstdlib> // Necesario para la función rand
+#include <ctime>   // Necesario para la función time
 #include "mediadorTrafico.h"
 #include "puertaEmbarque.h"
 #include "aeronave.h"
 using namespace std;
 
 class MediatorDeTrafico; // Declaración previa de MediatorDeTrafico
-class Aeronave; // Declaración previa de Aeronave
+class Aeronave;          // Declaración previa de Aeronave
+class PuertaEmbarque;
 
+class TorreControl : public MediadorTrafico
+{
+private:
+    vector<Aeronave *> aeronaves;
+    vector<Aeronave *> aviones;
+    vector<PuertaEmbarque> puertas;
 
-class TorreControl : public MediadorTrafico{
-    private:
-        vector<Aeronave*> aeronaves;
-    public:
+public:
+    TorreControl();
 
-    TorreControl(){}
+    void registrarAeronave(Aeronave *aeronave) override;
 
-    void registrarAeronave(Aeronave* aeronave) override;
+    void enviarMensaje(const string &mensaje, Aeronave *emisor) override;
 
-    void enviarMensaje(const string& mensaje, Aeronave* emisor) override ;
+    void asignarPuertaDeEmbarque(Aeronave *aeronave, int puerta) override;
 
-    void asignarPuertaDeEmbarque(Aeronave* aeronave, const string& puerta) override ;
+    bool disponibilidadNaves();
 
+    void registrarAvion(Aeronave *aeronave);
+
+    void mostrarAviones();
+
+    void seleccionarAeronave(Vuelos *v);
+
+    void simulacion();
 };
 
 #endif

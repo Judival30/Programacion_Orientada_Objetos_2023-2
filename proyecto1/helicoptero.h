@@ -18,6 +18,8 @@ public:
     int getNumRotores();
     int getMaxElevacion();
     string getUso();
+
+    void printInfo() override;
 };
 
 #endif

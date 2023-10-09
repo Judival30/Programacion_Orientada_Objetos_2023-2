@@ -16,3 +16,8 @@ string Helicoptero::getUso()
 {
     return this->uso;
 }
+
+void Helicoptero::printInfo()
+{
+    Aeronave::printInfo();
+}

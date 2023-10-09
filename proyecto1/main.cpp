@@ -2,125 +2,196 @@
 
 #include <algorithm>
 
-void printLinea()
-{
-    printf("===========================================================================================\n");
-}
+void printLinea();
+void reserva();
+void modificarAeropuerto();
+void agregarNaves();
+
+Aeropuerto &aeropuerto = Aeropuerto::obtenerInstancia();
+Aeronave *jet = new JetPrivado("Jet", 100, &aeropuerto.torreControl);
+Aeronave *Heli = new Helicoptero("Helicoptero", 6, &aeropuerto.torreControl);
+Aeronave *avion = new Avion("Avion", 6, &aeropuerto.torreControl);
 
 int main()
 {
-    Aeropuerto &aeropuerto = Aeropuerto::obtenerInstancia();
-
-    Aeronave *aeronave1 = new JetPrivado("Aeronave 1", 100, &aeropuerto.torreControl);
-    Aeronave *jet1 = new JetPrivado("JetMarca2", 6, &aeropuerto.torreControl);
-
-    Aeronave aeronave2("Aeronave 2", 29, &aeropuerto.torreControl);
-    Aeronave aeronave3("Aeronave 3", 129, &aeropuerto.torreControl);
-
-    PuertaEmbarque puerta1(1);
-    PuertaEmbarque puerta2(2);
-    PuertaEmbarque puerta3(3);
-
-    Vuelos vuelo1(aeronave1->capacidad, "BGO", "12:00", 61281);
-    Vuelos vuelo2(aeronave2.capacidad, "NYK", "15:00", 443);
-    Vuelos vuelo3(aeronave3.capacidad, "MED", "8:00", 32533);
-
-    aeropuerto.agregarDestino(&vuelo1);
-    aeropuerto.agregarDestino(&vuelo2);
-    aeropuerto.agregarDestino(&vuelo3);
-
-    aeronave1->agregarVuelo(vuelo1);
-    aeronave1->agregarVuelo(vuelo2);
-    aeronave1->agregarVuelo(vuelo3);
-
-    aeropuerto.torreControl.asignarPuertaDeEmbarque(aeronave1, "Puerta 1");
-    aeropuerto.torreControl.asignarPuertaDeEmbarque(&aeronave2, "Puerta 2");
-    aeropuerto.torreControl.asignarPuertaDeEmbarque(&aeronave3, "Puerta 3");
-
-    aeronave1->despegar();
-    aeronave2.despegar();
-    aeronave3.despegar();
-
-    aeronave1->actualizarPosicion("Lat: 40.7128, Lon: -74.0060");
-    aeronave2.actualizarPosicion("Lat: 34.0522, Lon: -118.2437");
-    aeronave3.actualizarPosicion("Lat: 51.5074, Lon: -0.1278");
-
-    aeronave1->aterrizar();
-    aeronave2.aterrizar();
-    aeronave3.aterrizar();
-
-    puerta1.anunciarEmbarque("Puerta 1");
-    puerta2.anunciarEmbarque("Puerta 2");
-    puerta3.anunciarEmbarque("Puerta 3");
-
     bool salir = true;
     int selec;
     printLinea();
     while (salir)
     {
-        printf("Bienvenido a vuelaComoTuEx.com, ¿Deseas comprar un vuelo?\n1. Si\n2. No\n");
+        printf("Bienvenido\n1. Modificar aeropuerto\n2. reservar vuelo\n3. Simular\n4. Salir.\n");
         cin >> selec;
         switch (selec)
         {
         case 1:
-            printf("Seleccione el destino\n");
-            aeropuerto.printDestinos();
-
+            modificarAeropuerto();
             break;
         case 2:
-            printf("Te esperamos para la proxima, saliendo...");
+            if (!aeropuerto.disponibilidadVuelos())
+                printf("No hay vuelos disponibles aun\n");
+            else
+            {
+                reserva();
+                printf("Seleccione el destino\n");
+                aeropuerto.printDestinos();
+            }
+            break;
+        case 3:
+            aeropuerto.torreControl.simulacion();
+            break;
+        case 4:
+            printf("Te esperamos para la proxima, saliendo...\n");
             salir = false;
         default:
-            printf("Seleccion erronea, saliendo...");
-            salir = false;
+            printf("Seleccion erronea, seleccione una opcion valida...\n");
             break;
         }
         printLinea();
     }
     printf("Hola perra\n");
 
-    string nombrePasajero = "Juan";
-    string apellidoPasajero = "Perez";
-    int edadPasajero = 30;
-    string cedulaPasajero = "1234567890";
-    string fechaNacimientoPasajero = "01/01/1990";
-    string generoPasajero = "Masculino";
-    string direccionPasajero = "Calle Principal 123";
-    string numTelPasajero = "555-123-4567";
-    string correoPasajero = "juan@example.com";
-    string nacionalidadPasajero = "Mexicana";
-    string infoMedicaPasajero = "Ninguna";
-    int numMaletasBodegaPasajero = 2;
-
-    // Crear un objeto Pasajero usando el constructor
-    Pasajero juanPerez(nombrePasajero, apellidoPasajero, edadPasajero, cedulaPasajero, fechaNacimientoPasajero, generoPasajero, direccionPasajero, numTelPasajero, correoPasajero, nacionalidadPasajero, infoMedicaPasajero, numMaletasBodegaPasajero);
-
-    cout << "Nombre: " << juanPerez.getNombre() << endl;
-    cout << "Edad: " << juanPerez.getEdad() << endl;
-    cout << "Número de Maletas de Bodega: " << juanPerez.getNumMaletas() << endl;
-
-    // Parámetros para crear un objeto Tripulante
-    string nombreTripulante = "Ana";
-    string apellidoTripulante = "Gomez";
-    int edadTripulante = 28;
-    string cedulaTripulante = "2345678901";
-    string fechaNacimientoTripulante = "15/05/1995";
-    string generoTripulante = "Femenino";
-    string direccionTripulante = "Calle Secundaria 456";
-    string numTelTripulante = "555-987-6543";
-    string correoTripulante = "ana@example.com";
-    string cargoTripulante = "Azafata";
-    int xpTripulante = 3;
-    int hrsDiariasTripulante = 8;
-
-    // Crear un objeto Tripulante usando el constructor
-    Tripulante ana(nombreTripulante, apellidoTripulante, edadTripulante, cedulaTripulante, fechaNacimientoTripulante, generoTripulante, direccionTripulante, numTelTripulante, correoTripulante, cargoTripulante, xpTripulante, hrsDiariasTripulante);
-
-    cout << "Nombre: " << ana.getNombre() << endl;
-    cout << "Edad: " << ana.getEdad() << endl;
-    cout << "Cargo: " << ana.getCargo() << endl;
-    cout << "Experiencia: " << ana.getXp() << " años" << endl;
-    cout << "Horas Diarias de Trabajo: " << ana.getHorasDiarias() << " horas" << endl;
-
     return 0;
+}
+
+void reserva()
+{
+    Pasajero pasajero;
+    pasajero.obtenerDatosPasajero();
+    printLinea();
+    bool flag = true;
+    while (flag) // verificar datos
+    {
+        pasajero.getInformacion();
+        printf("Los datos son correctos?\n1. Si\n2. No\n");
+        int s;
+        cin >> s;
+        switch (s)
+        {
+        case 1:
+            flag = false;
+            break;
+        case 2:
+            pasajero.obtenerDatosPasajero();
+            break;
+        default:
+            flag = false;
+            break;
+        }
+    }
+}
+
+void modificarAeropuerto()
+{
+    int cases;
+    printLinea();
+    printf("Menu:\n\n1.Agregar Vuelos\n2.Agregar Naves\n3.Salir\n");
+    cin >> cases;
+    printLinea();
+    bool flag1 = true;
+    switch (cases)
+    {
+    case 1:
+        if (!aeropuerto.disponibilidadAeronaves())
+        {
+            printf("No hay aeronaves disponibles\n");
+            break;
+        }
+        Vuelos *tmp;
+        tmp->obtenerDatosVuelo();
+        flag1 = true;
+        while (flag1) // verificar datos
+        {
+            tmp->printVuelo();
+            printf("Los datos son correctos?\n1. Si\n2. No\n");
+            int s;
+            cin >> s;
+            switch (s)
+            {
+            case 1:
+                flag1 = false;
+                break;
+            case 2:
+                tmp->obtenerDatosVuelo();
+                break;
+            default:
+                flag1 = false;
+                break;
+            }
+            printLinea();
+        }
+        // AGREGAR VUELO A AVION
+        aeropuerto.torreControl.seleccionarAeronave(tmp);
+        aeropuerto.agregarDestino(tmp);
+        break;
+    case 2:
+        agregarNaves();
+        break;
+    case 3:
+        printf("saliendo\n");
+        flag1 = false;
+        break;
+    default:
+        printf("seleccion erronea, seleccione otra opcion\n");
+        break;
+    }
+    printLinea();
+}
+
+void agregarNaves()
+{
+    int cases, capacidad;
+    bool flag2 = true;
+    printLinea();
+    string n;
+    Aeronave *tmp;
+    while (flag2)
+    {
+        printf("Agregar: \n1. Avion\n2. Jet\n3. Helicotero\n4. Salir\n");
+        cin >> cases;
+        switch (cases)
+        {
+        case 1:
+            printLinea();
+            printf("Ingrese la marca del avion\n");
+            cin >> n;
+            printf("Ingrese la capacidad del avion\n");
+            cin >> capacidad;
+            tmp = new Avion(n, capacidad, &aeropuerto.torreControl);
+            aeropuerto.torreControl.registrarAvion(tmp);
+            // Falta especificar
+            break;
+        case 2:
+            printLinea();
+            printf("Ingrese la marca del Jet\n");
+            cin >> n;
+            printf("Ingrese la capacidad del Jet\n");
+            cin >> n;
+            tmp = new JetPrivado(n, capacidad, &aeropuerto.torreControl);
+            // Falta especificar
+            break;
+        case 3:
+            printLinea();
+            printf("Ingrese la marca del Helicoptero\n");
+            cin >> n;
+            printf("Ingrese la capacidad del Helicoptero\n");
+            cin >> n;
+            tmp = new Helicoptero(n, capacidad, &aeropuerto.torreControl);
+            // Falta especificar
+            break;
+        case 4:
+            printf("saliendo\n");
+            flag2 = false;
+            break;
+        default:
+            printf("Seleccion erronea, seleccione una opcion valida...\n");
+            break;
+        }
+        aeropuerto.torreControl.mostrarAviones();
+        printLinea();
+    }
+}
+
+void printLinea()
+{
+    printf("===========================================================================================\n\n");
 }

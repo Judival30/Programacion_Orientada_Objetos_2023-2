@@ -25,7 +25,7 @@ private:
 public:
     string marca, modelo, nombre;
     int capacidad, autonomia, fabricacion, velMax, sillasDispo, id;
-    vector<Vuelos> vuelos;
+    vector<Vuelos *> vuelos;
     bool estado;
 
     Aeronave();
@@ -38,9 +38,15 @@ public:
 
     void recibirMensaje(const string &mensaje);
 
-    void asignarPuertaDeEmbarque(const string &puerta);
+    void asignarPuertaDeEmbarque(int puerta);
 
-    void agregarVuelo(Vuelos &v);
+    void agregarVuelo(Vuelos *v);
+
+    virtual void printInfo();
+
+    void eliminarVuelo();
+
+    bool tieneVuelos();
 
     int getCapacidad();
 

@@ -18,3 +18,8 @@ int Avion::getNumMotores()
 {
     return this->numMotores;
 }
+
+void Avion::printInfo()
+{
+    Aeronave::printInfo();
+}

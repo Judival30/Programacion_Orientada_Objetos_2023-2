@@ -22,6 +22,7 @@ void Aeropuerto::printDestinos()
         }
     }
 }
+
 Aeropuerto *Aeropuerto::instancia = nullptr;
 
 Aeropuerto &Aeropuerto::obtenerInstancia()
@@ -31,4 +32,17 @@ Aeropuerto &Aeropuerto::obtenerInstancia()
         instancia = new Aeropuerto();
     }
     return *instancia;
+}
+
+bool Aeropuerto::disponibilidadVuelos()
+{
+    if (vuelos.size() == 0)
+        return false;
+    else
+        return true;
+}
+
+bool Aeropuerto::disponibilidadAeronaves()
+{
+    return torreControl.disponibilidadNaves();
 }

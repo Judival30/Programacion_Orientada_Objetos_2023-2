@@ -7,6 +7,7 @@
 #include "jet.h"
 #include "helicoptero.h"
 #include "avion.h"
+#include "pasajero.h"
 
 using namespace std;
 
@@ -25,6 +26,8 @@ public:
 
     void agregarDestino(Vuelos *v);
     void printDestinos();
+    bool disponibilidadVuelos();
+    bool disponibilidadAeronaves();
 };
 
 #endif

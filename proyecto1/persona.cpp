@@ -1,9 +1,11 @@
 #include "persona.h"
 
-Persona::Persona(){
+Persona::Persona()
+{
 }
 
-Persona::Persona(const string& nombre, string& apellido, int edad, string& cedula, string& fechaNacimiento, string& genero, string& direccion, string& numTel, string& correo){
+Persona::Persona(const string &nombre, string &apellido, int edad, string &cedula, string &fechaNacimiento, string &genero, string &direccion, string &numTel, string &correo)
+{
     this->nombre = nombre;
     this->apellido = apellido;
     this->edad = edad;
@@ -15,14 +17,25 @@ Persona::Persona(const string& nombre, string& apellido, int edad, string& cedul
     this->correo = correo;
 }
 
-string Persona::getNombre(){
+string Persona::getNombre()
+{
     return this->nombre;
 }
 
-int Persona::getEdad(){
+int Persona::getEdad()
+{
     return this->edad;
 }
 
-void Persona::mostrarInfo(){
-    cout << "Nombre: " << this->nombre << ", Edad: " << this->edad << endl;
+void Persona::getInformacion()
+{
+    cout << "Nombre: " << nombre << endl;
+    cout << "Apellido: " << apellido << endl;
+    cout << "Edad: " << edad << " años" << endl;
+    cout << "Cédula: " << cedula << endl;
+    cout << "Fecha de Nacimiento: " << fechaNacimiento << endl;
+    cout << "Género: " << genero << endl;
+    cout << "Dirección: " << direccion << endl;
+    cout << "Número de Teléfono: " << numTel << endl;
+    cout << "Correo Electrónico: " << correo << endl;
 }
