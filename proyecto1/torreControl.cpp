@@ -45,9 +45,9 @@ void TorreControl::enviarMensaje(const string &mensaje, Aeronave *emisor)
     }
 }
 
-void TorreControl::asignarPuertaDeEmbarque(Aeronave *aeronave, int puerta)
+void TorreControl::asignarPuertaDeEmbarque(Aeronave *aeronave, int puerta, int cod, const string &hora)
 {
-    aeronave->asignarPuertaDeEmbarque(puerta);
+    aeronave->asignarPuertaDeEmbarque(puerta, cod, hora);
     puertas[puerta - 1].disponibilidad = false;
 }
 
@@ -61,7 +61,8 @@ bool TorreControl::disponibilidadNaves()
 
 void TorreControl::mostrarAviones()
 {
-
+    if (aeronaves.size() == 0)
+        printf("No hay aeronaves\n");
     for (int i = 0; i < aeronaves.size(); i++)
     {
         printf("%d.\n", i + 1);
@@ -81,7 +82,7 @@ void TorreControl::seleccionarAeronave(Vuelos *v)
             {
                 if (puertas[i].disponibilidad)
                 {
-                    this->asignarPuertaDeEmbarque(aeronave, puertas[i].identificacion);
+                    this->asignarPuertaDeEmbarque(aeronave, puertas[i].identificacion, v->identificacion, v->hora);
                     flag = false;
                 }
             }
@@ -111,29 +112,42 @@ void TorreControl::simulacion()
     {
         if (aeronave->tieneVuelos())
         {
-            aeronave->despegar();
-            pos1 = generarNumeroAleatorio();
-            pos2 = generarNumeroAleatorio();
-            string n = "Lat: ";
-            string m = " Lon: ";
-            string tmp = to_string(pos1);
-            n += tmp;
-            n += m;
-            tmp = to_string(pos2);
-            n += tmp;
-            aeronave->actualizarPosicion(n);
+            for (int i = 0; i < aeronave->vuelos.size(); i++)
+            {
+                aeronave->despegar();
+                pos1 = generarNumeroAleatorio();
+                pos2 = generarNumeroAleatorio();
+                string n = "Lat: ";
+                string m = " Lon: ";
+                string tmp = to_string(pos1);
+                n += tmp;
+                n += m;
+                tmp = to_string(pos2);
+                n += tmp;
+                aeronave->actualizarPosicion(n);
+                aeronave->aterrizar();
+            }
+            for (int i = 0; i < aeronave->vuelos.size(); i++)
+                aeronave->eliminarVuelo();
         }
     }
-    for (auto &aeronave : aeronaves)
-    {
-        if (aeronave->tieneVuelos())
-        {
-            aeronave->aterrizar();
-            aeronave->eliminarVuelo();
-        }
-    }
+
     for (int i = 0; i < puertas.size(); i++)
     {
         puertas[i].disponibilidad = true;
+    }
+}
+
+void TorreControl::mostrarPuertas()
+{
+    for (int i = 0; i < puertas.size(); i++)
+    {
+        cout << "Puerta #" << puertas[i].identificacion;
+        if (puertas[i].disponibilidad)
+            cout << " disponible ";
+        else
+            cout << "no disponible " << endl
+                 << endl;
+        printf("\n");
     }
 }

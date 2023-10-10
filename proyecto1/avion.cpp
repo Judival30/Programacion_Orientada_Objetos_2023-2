@@ -23,3 +23,15 @@ void Avion::printInfo()
 {
     Aeronave::printInfo();
 }
+void Avion::obtenerDatos()
+{
+    cout << "Ingrese el numero de motores: ";
+    cin >> this->numMotores;
+    cout << endl;
+    cout << "Ingrese la categoria: ";
+    cin >> this->categoria;
+    cout << endl;
+    cout << "Ingrese la altitud maxima: ";
+    cin >> this->altitudMax;
+    cout << endl;
+}

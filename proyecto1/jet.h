@@ -17,6 +17,7 @@ public:
     JetPrivado(const string &marca, int capacidad, MediadorTrafico *mediator);
     string getPropietario();
     void printInfo() override;
+    void obtenerDatos() override;
 };
 
 #endif

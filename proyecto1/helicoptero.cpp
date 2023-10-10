@@ -21,3 +21,16 @@ void Helicoptero::printInfo()
 {
     Aeronave::printInfo();
 }
+
+void Helicoptero::obtenerDatos()
+{
+    cout << "Ingrese el numero de rotores: ";
+    cin >> this->numRotores;
+    cout << endl;
+    cout << "Ingrese la maxima elevacion: ";
+    cin >> this->maxElevacion;
+    cout << endl;
+    cout << "Ingrese el tipo de uso: ";
+    cin >> this->uso;
+    cout << endl;
+}

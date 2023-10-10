@@ -55,9 +55,9 @@ void Aeronave::recibirMensaje(const string &mensaje)
     cout << marca << " recibio mensaje: " << mensaje << endl;
 }
 
-void Aeronave::asignarPuertaDeEmbarque(int puerta)
+void Aeronave::asignarPuertaDeEmbarque(int puerta, int cod, const string &hora)
 {
-    cout << marca << " se dirige a la puerta de embarque: " << puerta << endl;
+    cout << marca << " se dirige a la puerta de embarque: " << puerta << " Para el vuelo #" << cod << " Hora: " << hora << endl;
     puerta_de_embarque = puerta;
 }
 

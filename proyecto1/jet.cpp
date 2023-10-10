@@ -18,3 +18,10 @@ void JetPrivado::printInfo()
 {
     Aeronave::printInfo();
 }
+
+void JetPrivado::obtenerDatos()
+{
+    cout << "Ingrese el nombre del propietario: ";
+    cin >> this->propietario;
+    cout << endl;
+}

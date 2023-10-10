@@ -16,6 +16,7 @@ public:
     Avion(const string &marca, int capacidad, MediadorTrafico *mediator);
     int getAltitudMax(), getNumMotores(), getCategoria();
     void printInfo() override;
+    void obtenerDatos() override;
 };
 
 #endif

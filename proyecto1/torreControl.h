@@ -27,7 +27,7 @@ public:
 
     void enviarMensaje(const string &mensaje, Aeronave *emisor) override;
 
-    void asignarPuertaDeEmbarque(Aeronave *aeronave, int puerta) override;
+    void asignarPuertaDeEmbarque(Aeronave *aeronave, int puerta, int cod, const string &hora) override;
 
     bool disponibilidadNaves();
 
@@ -38,6 +38,8 @@ public:
     void seleccionarAeronave(Vuelos *v);
 
     void simulacion();
+
+    void mostrarPuertas();
 };
 
 #endif

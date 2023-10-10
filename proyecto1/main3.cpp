@@ -1,6 +1,6 @@
 #include "aeropuerto.h"
 
-void agregarNaves(Aeropuerto &aeropuerto);
+void agregarNaves_(Aeropuerto &aeropuerto);
 void reserva(Aeropuerto &aeropuerto);
 
 void printLinea()
@@ -11,25 +11,13 @@ void printLinea()
 int main()
 {
     Aeropuerto &aeropuerto = Aeropuerto::obtenerInstancia();
-
-    /*  Aeronave *jet = new JetPrivado("Jet", 100, &aeropuerto.torreControl);
-     Aeronave *Heli = new Helicoptero("Helicoptero", 6, &aeropuerto.torreControl);
-     Aeronave *avion = new Avion("Avion", 6, &aeropuerto.torreControl); */
-
-    /*  Vuelos *tmp;
-     tmp->obtenerDatosVuelo();
-
-     printLinea();
-
-     aeropuerto.agregarDestino(tmp);
-     aeropuerto.asignarVuelo();
-     aeropuerto.torreControl.simulacion(); */
     int cases, num;
     bool flag = true;
+    system("cls");
     printLinea();
     while (flag)
     {
-        printf("Bienvenido\n1. Modificar vuelos\n2. Agregar naves\n3. Simular\n4. reservar vuelo\n5. Salir.\n");
+        printf("Bienvenido\n1. Modificar vuelos\n2. Agregar naves\n3. Simular\n4. reservar vuelo\n5. Consultar info\n6. Salir.\n");
         cin >> cases;
         cout << endl;
         bool flag2 = true;
@@ -74,7 +62,7 @@ int main()
                     flag2 = false;
             }
         case 2:
-            agregarNaves(aeropuerto);
+            agregarNaves_(aeropuerto);
             break;
         case 3:
             aeropuerto.asignarVuelo();
@@ -83,23 +71,50 @@ int main()
         case 4:
             reserva(aeropuerto);
             break;
+        case 5:
+            system("cls");
+            printLinea();
+            while (flag2)
+            {
+                printf("1. Consultar Vuelos\n2. Consultar Puertas\n3. Consultar Aeronaves\n4. Salir\n");
+                cin >> num;
+                switch (num)
+                {
+                case 1:
+                    aeropuerto.printDestinos();
+                    break;
+                case 2:
+                    aeropuerto.torreControl.mostrarPuertas();
+                    break;
+                case 3:
+                    aeropuerto.torreControl.mostrarAviones();
+                    break;
+                default:
+                    flag2 = false;
+                    break;
+                }
+                printLinea();
+            }
+            break;
         default:
             flag = false;
             break;
         }
+        system("cls");
         printLinea();
     }
 
     return 0;
 }
 
-void agregarNaves(Aeropuerto &aeropuerto)
+void agregarNaves_(Aeropuerto &aeropuerto)
 {
-    int cases, capacidad;
+    int cases, capacidad, num;
     bool flag2 = true;
-    printLinea();
     string n;
     Aeronave *tmp;
+    system("cls");
+    printLinea();
     while (flag2)
     {
         printf("Agregar: \n1. Avion\n2. Jet\n3. Helicotero\n4. Salir\n");
@@ -107,31 +122,43 @@ void agregarNaves(Aeropuerto &aeropuerto)
         switch (cases)
         {
         case 1:
+
             printLinea();
             printf("Ingrese la marca del avion\n");
             cin >> n;
             printf("Ingrese la capacidad del avion\n");
             cin >> capacidad;
             tmp = new Avion(n, capacidad, &aeropuerto.torreControl);
-            // Falta especificar
+            printf("Quieres especificar?\n1. Si\n2.No\n");
+            cin >> num;
+            if (num == 1)
+                tmp->obtenerDatos();
             break;
         case 2:
+
             printLinea();
             printf("Ingrese la marca del Jet\n");
             cin >> n;
             printf("Ingrese la capacidad del Jet\n");
             cin >> capacidad;
             tmp = new JetPrivado(n, capacidad, &aeropuerto.torreControl);
-            // Falta especificar
+            printf("Quieres especificar?\n1. Si\n2.No\n");
+            cin >> num;
+            if (num == 1)
+                tmp->obtenerDatos();
             break;
         case 3:
+
             printLinea();
             printf("Ingrese la marca del Helicoptero\n");
             cin >> n;
             printf("Ingrese la capacidad del Helicoptero\n");
             cin >> capacidad;
             tmp = new Helicoptero(n, capacidad, &aeropuerto.torreControl);
-            // Falta especificar
+            printf("Quieres especificar?\n1. Si\n2.No\n");
+            cin >> num;
+            if (num == 1)
+                tmp->obtenerDatos();
             break;
         case 4:
             printf("saliendo\n");
@@ -150,6 +177,7 @@ void reserva(Aeropuerto &aeropuerto)
 {
     Pasajero pasajero;
     pasajero.obtenerDatosPasajero();
+    system("cls");
     printLinea();
     bool flag = true;
     while (flag) // verificar datos
@@ -170,4 +198,13 @@ void reserva(Aeropuerto &aeropuerto)
     }
     printf("Seleccione su vuelo\n");
     aeropuerto.printDestinos();
+    int selec;
+    cin >> selec;
+    selec--;
+    Vuelos *tmp = aeropuerto.obtenerVuelo(selec);
+    pasajero.asignarVuelo(tmp);
+    printf("El vuelo ha sido reservado, desea consultar?\n1. Si\n 2. No\n");
+    cin >> selec;
+    if (selec == 1)
+        tmp->printVuelo();
 }

@@ -56,6 +56,7 @@ void Aeropuerto::asignarVuelo()
     }
 }
 
-Vuelos Aeropuerto::*obtenerVuelo(int pos)
+Vuelos *Aeropuerto::obtenerVuelo(int pos)
 {
+    return vuelos[pos];
 }
