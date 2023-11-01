@@ -21,7 +21,7 @@ class Pasajero(Persona):
         else:
             print("El vuelo no está disponible.")
 
-    @classmethod
+    # @classmethod
     def obtenerDatosPasajero(cls):
         nombre = input("Ingrese el nombre del pasajero: ")
         apellido = input("Ingrese el apellido del pasajero: ")

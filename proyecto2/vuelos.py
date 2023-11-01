@@ -14,13 +14,13 @@ class Vuelos:
         self.tripulantes = []
         self.estado = True
 
-    def agregar_pasajero(self):
+    def agregarPasajero(self):
         if self.num_pasajeros < self.capacidad:
             self.num_pasajeros += 1
         else:
             print("Vuelo lleno")
 
-    def print_vuelo(self):
+    def printVuelo(self):
         print("Fecha:", self.fecha)
         print("Hora:", self.hora)
         print("Ciudad de origen:", self.ciudad_origen)

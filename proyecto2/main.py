@@ -64,9 +64,9 @@ def agregarNaves(aeropuerto: Aeropuerto):
         printLinea()
 
 
-def reserva(aeropuerto):
-    pasajero = Pasajero("", "", 0, "", "", "", "", "", "", "", 0)
-    pasajero.obtenerDatosPasajero()
+def reserva(aeropuerto: Aeropuerto):
+    p = Pasajero("", "", 0, "", "", "", "", "", "", "", 0)
+    pasajero = p.obtenerDatosPasajero()
 
     flag = True
     while flag:

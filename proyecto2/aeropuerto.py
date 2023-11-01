@@ -24,7 +24,7 @@ class Aeropuerto:
         else:
             for i, vuelo in enumerate(self.vuelos, 1):
                 print(f"{i}.")
-                vuelo.print_vuelo()
+                vuelo.printVuelo()
 
     def disponibilidadVuelos(self):
         return bool(self.vuelos)
