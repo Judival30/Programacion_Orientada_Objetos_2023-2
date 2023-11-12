@@ -1,13 +1,26 @@
 from torreControl import TorreControl
-""" from vuelos import Vuelos """
+import streamlit as st
+from vuelos import Vuelos 
 
 
 class Aeropuerto:
     instancia = None
 
     def __init__(self):
-        self.vuelos = []
-        self.torreControl = TorreControl()
+        
+        if 'vuelos' not in st.session_state:
+            st.session_state['vuelos'] = {}
+            self.vuelos = {}
+        else:
+            self.vuelos = st.session_state['vuelos']
+            
+        if 'torreDeControl' not in st.session_state:
+            self.torreControl = TorreControl()
+            st.session_state['torreDeControl'] = self.torreControl
+            
+        else:
+            self.torreControl = st.session_state['torreDeControl']
+        
 
     @classmethod
     def obtenerInstancia(cls):
@@ -15,16 +28,15 @@ class Aeropuerto:
             cls.instancia = cls()
         return cls.instancia
 
-    def agregarDestino(self, vuelo):
-        self.vuelos.append(vuelo)
+    def agregarDestino(self, id, vuelo : Vuelos):
+        self.vuelos[id] = vuelo
+        st.session_state['vuelos'] = self.vuelos
 
     def printDestinos(self):
-        if not self.vuelos:
-            print("No hay vuelos")
-        else:
-            for i, vuelo in enumerate(self.vuelos, 1):
-                print(f"{i}.")
-                vuelo.printVuelo()
+        l=[]
+        for i in self.vuelos:
+            l.append(self.vuelos[i].printVuelo())
+        return l
 
     def disponibilidadVuelos(self):
         return bool(self.vuelos)
@@ -39,5 +51,6 @@ class Aeropuerto:
     def obtenerVuelo(self, pos):
         return self.vuelos[pos]
 
-    def agregarAeronave(self, nave):
+    def agregarAeronave(self,id, nave):
         self.torreControl.aeronaves.append(nave)
+        st.session_state["torreDeControl"]=self.torreControl

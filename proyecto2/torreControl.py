@@ -17,9 +17,13 @@ class TorreControl(MediadorTrafico):
         self.aviones.append(aeronave)
 
     def enviarMensaje(self, mensaje, emisor: Aeronave):
+        s = ""
         for aeronave in self.aeronaves:
             if aeronave != emisor:
-                aeronave.recibirMensaje(mensaje)
+                s += aeronave.recibirMensaje(mensaje)
+
+        print(s)
+        return s
 
     def asignarPuertaDeEmbarque(self, aeronave: Aeronave, puerta, cod, hora):
         aeronave.asignarPuertaDeEmbarque(puerta, cod, hora)
@@ -28,12 +32,11 @@ class TorreControl(MediadorTrafico):
     def disponibilidadNaves(self):
         return bool(self.aeronaves)
 
-    def mostrarAviones(self):
-        if not self.aeronaves:
-            print("No hay aeronaves")
-        for i, aeronave in enumerate(self.aeronaves, 1):
-            print(f"{i}.")
-            aeronave.printInfo()
+    def mostrarAeronaves(self):
+        x=[]
+        for i in range(len(self.aeronaves)):
+            x.append(self.aeronaves[i].printInfo())
+        return x
 
     def seleccionarAeronave(self, vuelo):
         if self.cont == len(self.aeronaves):
@@ -44,8 +47,7 @@ class TorreControl(MediadorTrafico):
                 flag = True
                 for i in range(len(self.puertas)):
                     if self.puertas[i].disponibilidad:
-                        self.asignarPuertaDeEmbarque(
-                            self.aeronaves[j], self.puertas[i].identificacion, vuelo.identificacion, vuelo.hora)
+                        #self.asignarPuertaDeEmbarque(self.aeronaves[j], self.puertas[i].ident, vuelo.identificacion, vuelo.hora)
                         flag = False
                         break
                 break
@@ -55,23 +57,33 @@ class TorreControl(MediadorTrafico):
         def generarNumeroAleatorio():
             import random
             return random.randint(10000, 100000)
+        lista2=[]
 
         for aeronave in self.aeronaves:
+            
             if aeronave.tieneVuelos():
                 for i in range(len(aeronave.vuelos)):
-                    aeronave.despegar()
+                    x=aeronave.despegar()
                     pos1 = generarNumeroAleatorio()
                     pos2 = generarNumeroAleatorio()
                     n = "Lat: " + str(pos1) + " Lon: " + str(pos2)
-                    aeronave.actualizarPosicion(n)
-                    aeronave.aterrizar()
+                    y=aeronave.actualizarPosicion(n)
+                    z=aeronave.aterrizar()
+                    lista=[x,y,z]
+                    lista2.append(lista)
+
                 for i in range(len(aeronave.vuelos)):
                     aeronave.eliminarVuelo()
+        
 
         for puerta in self.puertas:
             puerta.disponibilidad = True
+        return lista2
 
     def mostrarPuertas(self):
+        l=[]
         for puerta in self.puertas:
             estado = "disponible" if puerta.disponibilidad else "no disponible"
-            print(f"Puerta #{puerta.identificacion} {estado}")
+            x=(f"Puerta #{puerta.identificacion} {estado}")
+            l.append(x)
+        return l

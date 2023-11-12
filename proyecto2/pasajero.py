@@ -35,9 +35,10 @@ class Pasajero(Persona):
         correo = input("Ingrese el correo del pasajero: ")
         nacionalidad = input("Ingrese la nacionalidad del pasajero: ")
         infoMedica = input("Ingrese la información médica del pasajero: ")
-        numMaletasBodega = int(
-            input("Ingrese el número de maletas en la bodega: "))
-        return cls(nombre, apellido, edad, cedula, fechaNacimiento, genero, direccion, numTel, correo, nacionalidad, infoMedica, numMaletasBodega)
+        numMaletasBodega = int(input("Ingrese el número de maletas en la bodega: "))
+        pasajero=Pasajero(nombre, apellido, edad, cedula, fechaNacimiento, genero, direccion, numTel, correo, nacionalidad, infoMedica, numMaletasBodega)
+        return pasajero
+        #return cls(nombre, apellido, edad, cedula, fechaNacimiento, genero, direccion, numTel, correo, nacionalidad, infoMedica, numMaletasBodega)
 
     def getInformacion(self):
         super().getInformacion()

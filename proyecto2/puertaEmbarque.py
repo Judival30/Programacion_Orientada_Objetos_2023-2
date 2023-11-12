@@ -3,10 +3,10 @@
 
 class PuertaEmbarque:
     def __init__(self, nombre):
-        self.identificacion = nombre
+        self.ident = nombre
         self.disponibilidad = True
         self.historial_vuelos = []
 
     def anunciarEmbarque(self, puerta):
         print(
-            f"Anuncio de embarque en {self.identificacion} - Puerta {puerta}")
+            f"Anuncio de embarque en {self.ident} - Puerta {puerta}")

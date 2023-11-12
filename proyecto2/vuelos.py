@@ -21,10 +21,8 @@ class Vuelos:
             print("Vuelo lleno")
 
     def printVuelo(self):
-        print("Fecha:", self.fecha)
-        print("Hora:", self.hora)
-        print("Ciudad de origen:", self.ciudad_origen)
-        print("Ciudad de destino:", self.ciudad_destino)
+        data = {"Fecha:": self.fecha, "Hora:": self.hora, "Ciudad de origen:": self.ciudad_origen,"Ciudad de destino:": self.ciudad_destino}
+        return data
 
     def disponible(self):
         return self.estado

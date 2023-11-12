@@ -2,11 +2,11 @@ from aeronave import Aeronave
 
 
 class Avion(Aeronave):
-    def __init__(self, marca, capacidad, mediator):
-        super().__init__(marca, capacidad, mediator)
-        self.altitudMax = 0
-        self.numMotores = 0
-        self.categoria = 0
+    def __init__(self,id, marca, capacidad, mediator,modelo,velMax,anoFab, alitudMax, numMotores, categoría):
+        super().__init__(id, marca, capacidad, mediator,modelo,velMax,anoFab)
+        self.altitudMax = alitudMax
+        self.numMotores = numMotores
+        self.categoria = categoría
 
     def getAltitudMax(self):
         return self.altitudMax

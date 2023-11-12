@@ -150,7 +150,10 @@ if __name__ == "__main__":
             print("Deseas continuar?\n1. Si\n")
             npas = input()
         elif cases == 4:
-            reserva(aeropuerto)
+            if aeropuerto.disponibilidadVuelos():
+                reserva(aeropuerto)
+            else:
+                print("No hay vuelos")
         elif cases == 5:
             printLinea()
             flag2 = True
