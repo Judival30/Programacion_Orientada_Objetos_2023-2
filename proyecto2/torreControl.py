@@ -89,3 +89,9 @@ class TorreControl(MediadorTrafico):
             x=(f"Puerta #{puerta.identificacion} {estado}")
             l.append(x)
         return l
+    
+    def listPuertas(self):
+        l = []
+        for i in range(len(self.puertas)):
+            l.append(self.puertas[i].to_dictPE())
+        return l

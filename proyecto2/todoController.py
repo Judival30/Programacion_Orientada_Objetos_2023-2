@@ -58,7 +58,7 @@ class TodoController:
         if option=="Vuelos":
             self.listAllVuelos()
         elif option=="Puertas de Embarque":
-            st.text("Proximamente")
+            self.listALlPuertas()
         elif option=="Aeronaves":
             self.listAllAeronaves()
         elif option == "Pasajeros":
@@ -168,6 +168,10 @@ class TodoController:
     def listAllPasajeros(self):
         allPasajeros = self.aeropuerto.printPasajeros()
         self.view.listAllPasajero(allPasajeros)
+
+    def listALlPuertas(self):
+        allPuertas = self.aeropuerto.torreControl.listPuertas()
+        self.view.listPuertas(allPuertas)
 
     def listReserva(self):
         nombre = self.view.askPasajero()

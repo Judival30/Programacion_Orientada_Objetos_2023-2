@@ -352,6 +352,13 @@ class TodoView:
         else:
             st.info("No hay información", icon="ℹ️")
 
+    def listPuertas(self, tr):
+        data = tr
+        if data:
+            st.table(data)
+        else:
+            st.info("No hay información", icon="ℹ️")
+
     def listCountries(self,d):
 
         st.header(d["name"])
@@ -365,29 +372,3 @@ class TodoView:
         st.write(d["population"])
         st.subheader("Bandera")
         st.image(d["flag"])
-""" 
-    def removeTask(self, tasks):
-        st.header("Módulo de eliminación de tareas")
-        data = []
-        for task in tasks:
-            singleTask = tasks[task]
-            data.append(singleTask.id)
-        taskId = st.selectbox('Seleccione el ID de la tarea a eliminar:', data)
-        updateTarea = st.button("Eliminar esta tarea", type="primary")
-        if updateTarea:
-            return taskId
-
-    def checkTask(self, tasks):
-        st.header("Módulo de actualización de tareas")
-        data = []
-        for task in tasks:
-            singleTask = tasks[task]
-            data.append(singleTask.id)
-        #taskId = st.number_input("Ingrese el ID de la tarea a completar:", min_value=1)
-        taskId = st.selectbox('Seleccione el ID de la tarea a completar:', data)
-        updateTarea = st.button("Marcar esta tarea como completada", type="primary")
-        if updateTarea:
-            return taskId
-
-
- """
