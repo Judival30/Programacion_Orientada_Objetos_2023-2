@@ -6,6 +6,7 @@ from helicoptero import Helicoptero
 from avion import Avion
 from vuelos import Vuelos
 from pasajero import Pasajero
+from tripulante import Tripulante
 from aerolinea import Aerolinea
 import streamlit as st
 import requests
@@ -17,7 +18,7 @@ class TodoController:
         self.aeropuerto = Aeropuerto()
         self.view = TodoView()
         if 'taskCount' not in st.session_state:
-            st.session_state['taskCount'] = 1
+            st.session_state['taskCount'] = - 1
         if 'aeronavesC' not in st.session_state:
             st.session_state['aeronavesC'] = 0
         if 'pasajeroC' not in st.session_state:
@@ -44,11 +45,13 @@ class TodoController:
             self.createNewAerolinea()
         elif option == "Consultar país":
             self.consultarPais()
+        elif option == "Inicio":
+            self.view.aeropuertoText()
         """elif option == 'Marcar una tarea como completada':
             self.checkTask()
         elif option == 'Eliminar una tarea':
             self.removeTask() """
-    
+
     def showMenuConsulta(self):
         option =self.view.menuConsultar()
         st.session_state['opcionConsulta'] = option
@@ -58,6 +61,10 @@ class TodoController:
             st.text("Proximamente")
         elif option=="Aeronaves":
             self.listAllAeronaves()
+        elif option == "Pasajeros":
+            self.listAllPasajeros()
+        elif option == "Reserva":
+            self.listReserva()
 
     
     def showMenuAeronaves(self):
@@ -85,12 +92,22 @@ class TodoController:
 #-----------------------------------------------------------------------------------------------------#
     def createNewVuelo(self):
         flag=self.aeropuerto.disponibilidadAerolineas()
+
         data = self.view.addNewVuelo(flag,self.aeropuerto.aerolinea)
         if data:
             taskId = self.increaseTaskCount()
-            newVuelo = Vuelos(data["id"], data["fecha"], data["ciudadDestino"], data["hora"])
+            newVuelo = Vuelos(data["id"], data["fecha"], data["ciudadDestino"], data["hora"], data["aerolinea"])
+            l = data["tripulacion"]
+            if len(l) > 0:
+                tr = []
+                for i in range(len(l)):
+                    newTripulante = Tripulante(l[i]["Nombre"],l[i]["Apellido"],l[i]["Edad"],l[i]["Cedula"], l[i]["Fecha de Nacimiento"],l[i]["Genero"],l[i]["Direccion"],l[i]["Num Tel"],l[i]["Correo"],l[i]["Cargo"],l[i]["Experiencia"],l[i]["Horas diarias"])
+                    tr.append(newTripulante)
+                newVuelo.agregarTripulante(tr, l)
             self.aeropuerto.agregarDestino(taskId, newVuelo)
-            self.aeropuerto.asignVueloAerolinea(data["aerolinea"],newVuelo)
+            if(data["aerolinea"]):
+                self.aeropuerto.asignVueloAerolinea(data["aerolinea"], newVuelo)
+
 
     def createNewAvion(self):
         data = self.view.addNewAvion()
@@ -115,14 +132,13 @@ class TodoController:
 
     def createNewPasajero(self):
         dispo = self.aeropuerto.disponibilidadVuelos()
-        d = self.view.addNewPasajero(dispo)
+        allVuelos = self.aeropuerto.printDestinosReserva()
+        d = self.view.addNewPasajero(dispo,allVuelos)
         if d:
-            taskId = self.increasePasajeroCount()
+            pasCount = self.increasePasajeroCount()
             newPasajero = Pasajero(d["nombre"], d["apellido"], d["edad"], d["cedula"], d["fechaNacimiento"], d["genero"], d["direccion"], d["numTel"], d["correo"], d["nacionalidad"], d["infoMedica"], d["numMaletasBodega"])
-            index = self.listAllVuelosReserva()
-            if index:
-                newPasajero.asignarVuelo(self.aeropuerto.vuelos[index])
-                self.view.listVuelos(d[index])
+            newPasajero.asignarVuelo(self.aeropuerto.vuelos[int(d["selected_index"])])
+            self.aeropuerto.agregarPasajero(newPasajero, d["nombre"])
 
     def createNewAerolinea(self):
         data=self.view.addNewAerolinea()
@@ -148,6 +164,20 @@ class TodoController:
     def listAllAeronaves(self):
         allNaves = self.aeropuerto.torreControl.mostrarAeronaves()
         self.view.listAllAeronave(allNaves)
+    
+    def listAllPasajeros(self):
+        allPasajeros = self.aeropuerto.printPasajeros()
+        self.view.listAllPasajero(allPasajeros)
+
+    def listReserva(self):
+        nombre = self.view.askPasajero()
+        if nombre:
+            if nombre in self.aeropuerto.pasajeros:
+                pasajero = self.aeropuerto.pasajeros[nombre]
+                reserva = pasajero.getInformacion()
+                self.view.listReserva(reserva)
+            else:
+                self.view.showErrorReserva()
 
     def getCountriesData(self,country : str):
         url = f"https://restcountries.com/v3.1/name/{country}"
@@ -181,24 +211,3 @@ class TodoController:
         if x!="Error en la consulta de los datos":
             d=self.getCountriesData2(x)
             self.view.listCountries(d)
-"""
-    def removeTask(self):
-        allTasks = self.model.getAllTasks()
-        idToCheck = self.view.removeTask(allTasks)
-        if idToCheck:
-            self.model.removeTask(int(idToCheck))
-
-    def checkTask(self):
-        allTasks = self.model.getAllTasks()
-        idToCheck = self.view.checkTask(allTasks)
-        if idToCheck:
-            self.model.checkTask(int(idToCheck))
-
-    def getCountriesData(self):
-        url = "https://restcountries.com/v3.1/name/colombia"
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = json.loads(response.text)
-            print(data[0]['name']['common'])
-        else:
-            print("Error en la consulta de los datos") """

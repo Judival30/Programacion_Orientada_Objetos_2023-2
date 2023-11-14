@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
+from datetime import date
 
 class TodoView:
     def __init__(self):
-        st.title("Lista de tareas pendientes")
+        st.title("Aeropuerto Alfonso Bonilla Aragón")
         if 'destinos' not in st.session_state:
             st.session_state['destinos'] = []
             self.destinos = []
@@ -14,6 +15,12 @@ class TodoView:
             self.servicios = []
         else:
             self.servicios = st.session_state['servicios']
+
+        if 'tripulacion' not in st.session_state:
+            st.session_state['tripulacion'] = []
+            self.tripulacion = []
+        else:
+            self.tripulacion = st.session_state['tripulacion']
 
     def increaseJetsListas(self):
         st.session_state['listaJets'] = st.session_state['listaJets'] + 1
@@ -26,13 +33,21 @@ class TodoView:
 
     def menuConsultar(self):
         st.subheader("¿Qué deseas consultar?")
-        option = st.selectbox("Opciones",["Vuelos","Puertas de Embarque","Aeronaves"])
+        option = st.selectbox("Opciones",["Vuelos","Puertas de Embarque","Aeronaves","Pasajeros","Reserva"])
         return option
     
     def menuNaves(self):
         st.subheader("¿Qué tipo de nave deseas crear?")
         option = st.selectbox("Opciones",["Avión","Helicóptero","Jet"], index=None)
         return option
+
+    def aeropuertoText(self):
+        st.header("¡Bienvenido!")
+        st.write("Esta página ha sido creada con el fin de ayudarte a reservar tus vuelos más facilmente. Además de poder gestionar las aeronaves y los vuelos en caso de ser administrador.")
+        st.write("Te invitamos a disfrutar todo lo que el Aeropuerto Alfonso Bonilla Aragon tiene para ti.")
+        st.write("Además, hemos implementado una nueva función de consultar las características principales de los países. ¡Anímate a viajar con nosotros!")
+        st.image("https://dkv.es/corporativo/sites/default/files/styles/crop_freeform/public/2022-06/contaminaci%C3%B3n%20aeropuertos.jpg.webp?itok=KLauAJXV")
+        st.write("Estamos ubicados a las afueras de Cali, en Palmira")
 
     def addNewVuelo(self,flag,dicc):
         if flag:
@@ -44,17 +59,55 @@ class TodoView:
             id=st.number_input("Ingrese la identificación del vuelo:",min_value=1,step=1)
             fecha=st.date_input("Ingrese la fecha del vuelo (YYYY-MM-DD):")
             ciudadDestino=st.text_input("Ingrese la ciudad de destino:",value="")
-            hora = st.time_input("Ingrese la hora del vuelo (Hs:Ms):")
+            hora = st.time_input("Ingrese la hora del vuelo:")
+            tripulante_dict = {}
+            on = st.toggle('Añadir tripulacion')
+            if on:
+                st.subheader("Tripulación del vuelo")
+                nombre = st.text_input("Ingrese el nombre del tripulante:",value="")
+                apellido = st.text_input("Ingrese el apellido del tripulante: ",value="")
+                edad = st.number_input("Ingrese la edad del tripulante: ",min_value=1,step=1)
+                cedula = st.number_input("Ingrese la cédula del tripulante: ",min_value=1,step=None)
+                fecha_minima = date(1930, 1, 1)
+                fechaNacimiento = st.date_input("Ingrese la fecha de nacimiento del tripulante: ",min_value=fecha_minima, value=None)
+                genero = st.selectbox("Genero",["Masculino","Femenino", "Otro"])
+                direccion = st.text_input("Ingrese la dirección del tripulante: ",value="")
+                numTel = st.number_input("Ingrese el número de teléfono del tripulante: ",min_value=1,step= None)
+                correo = st.text_input("Ingrese el correo del tripulante: ",value="")
+                cargo = st.selectbox("Cargo",["Piloto","Copiloto", "Azafat@"])
+                xp = st.number_input("Ingrese los años del experiencia: ",min_value=1, step = 1)
+                horas = st.number_input("Ingrese las horar diarias de trabajo: ",min_value=1, step = 1)
+                tripulante_dict = {
+                    "Nombre": nombre,
+                    "Apellido": apellido,
+                    "Cargo": cargo,
+                    "Experiencia": xp,
+                    "Horas diarias": horas,
+                    "Edad": edad,
+                    "Cedula": cedula,
+                    "Fecha de Nacimiento": fechaNacimiento,
+                    "Genero": genero,
+                    "Direccion": direccion,
+                    "Num Tel": numTel,
+                    "Correo": correo,
+                }
+                masServicios = st.button("Añadir tripulante", type="secondary")
+                self.tripulacion.append(tripulante_dict)
+                st.session_state['tripulacion'] = self.tripulacion
+
             createTarea = st.button("Crear un nuevo vuelo", type="primary")
             if createTarea:
                 st.success('se ha creado un vuelo exitosamente', icon="✅")
-                return {
+                data ={
                     "id": id,
                     "aerolinea":aerolinea,
                     "fecha": fecha,
                     "ciudadDestino":ciudadDestino,
-                    "hora" : hora
+                    "hora" : hora,
+                    "tripulacion" : self.tripulacion
                 }
+                st.session_state['tripulacion'] = []
+                return data
         else:
             st.info("No hay Aerolíneas creadas hasta el momento", icon="ℹ️")
 
@@ -158,13 +211,14 @@ class TodoView:
                 "nombre": nombre
             }
 
-    def addNewPasajero(self, dispo):
+    def addNewPasajero(self, dispo, vuelos):
         if dispo: 
             nombre = st.text_input("Ingrese el nombre del pasajero:",value="")
             apellido = st.text_input("Ingrese el apellido del pasajero: ",value="")
             edad = st.number_input("Ingrese la edad del pasajero: ",min_value=1,step=1)
             cedula = st.number_input("Ingrese la cédula del pasajero: ",min_value=1,step=None)
-            fechaNacimiento = st.date_input("Ingrese la fecha de nacimiento del pasajero: ", value=None)
+            fecha_minima = date(1930, 1, 1)
+            fechaNacimiento = st.date_input("Ingrese la fecha de nacimiento del pasajero: ",min_value=fecha_minima, value=None)
             genero = st.selectbox("Genero",["Masculino","Femenino", "Otro"])
             direccion = st.text_input("Ingrese la dirección del pasajero: ",value="")
             numTel = st.number_input("Ingrese el número de teléfono del pasajero: ",min_value=1,step= None)
@@ -172,7 +226,19 @@ class TodoView:
             nacionalidad = st.text_input("Ingrese la nacionalidad del pasajero: ",value="")
             infoMedica = st.text_input("Ingrese la información médica del pasajero: ",value="")
             numMaletasBodega = st.number_input("Ingrese el número de maletas en la bodega: ",min_value=0,step=1)
+
+            st.subheader("Módulo de selección de Vuelos")
+            data = vuelos
+           
+            destinos = []
+            for i in range(len(data)):
+                destinos.append(str(i))
+            st.table(data)
+
+            selected_index = st.selectbox('Selecciona una fila', destinos)
+          
             createTarea = st.button("Registrarse", type="primary")
+
             if createTarea:
                 st.success('Se ha registrado correctamente el pasajero', icon="✅")
                 return{
@@ -188,7 +254,8 @@ class TodoView:
                     "correo":correo,
                     "nacionalidad":nacionalidad,
                     "infoMedica":infoMedica,
-                    "numMaletasBodega":numMaletasBodega
+                    "numMaletasBodega":numMaletasBodega,
+                    "selected_index":selected_index
                 }
         else:
             st.info("No hay vuelos creados hasta el momento", icon="ℹ️")      
@@ -234,10 +301,17 @@ class TodoView:
             st.table(data)
         else:
             st.info("No hay Aeronaves creadas hasta el momento", icon="ℹ️")
-    
+
+    def listAllPasajero(self, pasajero):
+        st.subheader("Módulo de visualización de Aeronaves")
+        data = pasajero
+        if data:
+            st.table(data)
+        else:
+            st.info("No hay Pasajeros registrados hasta el momento", icon="ℹ️")
+
     def listAllSimulacion (self, l):
         st.header("Simulación")
-        st.text(l)
         if len(l)==0:
             st.info("No hay Aeronaves creadas hasta el momento", icon="ℹ️")
         else:
@@ -253,6 +327,31 @@ class TodoView:
         x=st.text_input("Escriba el país que desea consultar")
         return x
     
+    def askPasajero(self):
+        x=st.text_input("Ingrese el nombre del cliente que desea consultar")
+        return x
+    
+    def askVuelo(self):
+        x = st.text_input("Ingrese la fila del vuelo")
+        return x
+    
+    def listReserva(self, reserva):
+        data = reserva
+        if data:
+            st.table(data)
+        else:
+            st.info("No hay información", icon="ℹ️")
+
+    def showErrorReserva(self):
+        st.info("El nombre ingresado no existe", icon="ℹ️")
+    
+    def listTripulantes(self, tr):
+        data = tr
+        if data:
+            st.table(data)
+        else:
+            st.info("No hay información", icon="ℹ️")
+
     def listCountries(self,d):
 
         st.header(d["name"])

@@ -2,6 +2,7 @@ from mediadorTrafico import MediadorTrafico
 from puertaEmbarque import PuertaEmbarque
 from aeronave import Aeronave
 from vuelos import Vuelos
+import streamlit as st
 
 
 class TorreControl(MediadorTrafico):
@@ -48,7 +49,7 @@ class TorreControl(MediadorTrafico):
                 flag = True
                 for i in range(len(self.puertas)):
                     if self.puertas[i].disponibilidad:
-                        #self.asignarPuertaDeEmbarque(self.aeronaves[j], self.puertas[i].ident, vuelo.identificacion, vuelo.hora)
+                        self.asignarPuertaDeEmbarque(self.aeronaves[j], self.puertas[i].ident, vuelo.identificacion, vuelo.hora)
                         flag = False
                         break
                 break

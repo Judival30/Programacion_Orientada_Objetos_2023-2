@@ -1,7 +1,7 @@
 from mediadorTrafico import MediadorTrafico
 from vuelos import Vuelos
+import streamlit as st
 
-""" from tripulante import Tripulante  """
 
 
 
@@ -58,8 +58,9 @@ class Aeronave:
         return w
     
     def asignarPuertaDeEmbarque(self, puerta, cod, hora):
-        y = str(self.marca) + " se dirige a la puerta de embarque: " + str(puerta) + " para el vuelo #" + str(cod)+ " Hora:" + str(hora)
-        return y
+        y = str(self.marca) + " se dirige a la puerta de embarque: " + str(puerta) + " para el vuelo #" + str(cod)+ " Hora: " + str(hora)
+        st.write(y)
+
     def agregarVuelo(self, v : Vuelos):
         flag = self.estado
         

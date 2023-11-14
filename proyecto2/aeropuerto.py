@@ -26,6 +26,12 @@ class Aeropuerto:
         else:
             self.aerolinea=st.session_state["aerolinea"]
         
+        if "pasajeros" not in st.session_state:
+            st.session_state["pasajeros"]={}
+            self.pasajeros={}
+        else:
+            self.pasajeros=st.session_state["pasajeros"]
+        
 
     @classmethod
     def obtenerInstancia(cls):
@@ -58,6 +64,12 @@ class Aeropuerto:
                 l.append(self.aerolinea[key].vuelos[i].printVuelo())
             d[key]=l
         return d
+    
+    def printPasajeros(self):
+        l = []
+        for i in self.pasajeros:
+            l.append(self.pasajeros[i].to_dict())
+        return l
 
     def disponibilidadVuelos(self):
         return bool(self.vuelos)
@@ -70,7 +82,7 @@ class Aeropuerto:
 
     def asignarVuelo(self):
         for vuelo in self.vuelos:
-            self.torreControl.seleccionarAeronave(vuelo)
+            self.torreControl.seleccionarAeronave(self.vuelos[vuelo])
 
     def obtenerVuelo(self, pos):
         return self.vuelos[pos]
@@ -82,6 +94,10 @@ class Aeropuerto:
     def agregarAerolinea(self, nombre, aerolinea):
         self.aerolinea[nombre]=aerolinea
         st.session_state["aerolinea"]=self.aerolinea
+
+    def agregarPasajero(self, pasajero, nombre):
+        self.pasajeros[nombre] = pasajero
+        st.session_state["pasajeros"]=self.pasajeros
 
     def asignVueloAerolinea(self,nombre,vuelo):
         self.aerolinea[nombre].agregarVuelo(vuelo)
