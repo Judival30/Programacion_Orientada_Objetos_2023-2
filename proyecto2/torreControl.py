@@ -1,6 +1,7 @@
 from mediadorTrafico import MediadorTrafico
 from puertaEmbarque import PuertaEmbarque
 from aeronave import Aeronave
+from vuelos import Vuelos
 
 
 class TorreControl(MediadorTrafico):
@@ -20,7 +21,7 @@ class TorreControl(MediadorTrafico):
         s = ""
         for aeronave in self.aeronaves:
             if aeronave != emisor:
-                s += aeronave.recibirMensaje(mensaje)
+                s += aeronave.recibirMensaje(mensaje) + ","
 
         print(s)
         return s
@@ -38,7 +39,7 @@ class TorreControl(MediadorTrafico):
             x.append(self.aeronaves[i].printInfo())
         return x
 
-    def seleccionarAeronave(self, vuelo):
+    def seleccionarAeronave(self, vuelo : Vuelos):
         if self.cont == len(self.aeronaves):
             self.cont = 0
         for j in range(self.cont, len(self.aeronaves)):

@@ -2,11 +2,11 @@ from aeronave import Aeronave
 
 
 class Helicoptero(Aeronave):
-    def __init__(self, marca, capacidad, mediator):
-        super().__init__(marca, capacidad, mediator)
-        self.numRotores = 0
-        self.maxElevacion = 0
-        self.uso = ""
+    def __init__(self, id, marca, capacidad, mediator,modelo,velMax,anoFab,numRotores,maxElevacion,uso):
+        super().__init__(id, marca, capacidad, mediator,modelo,velMax,anoFab)
+        self.numRotores = numRotores
+        self.maxElevacion = maxElevacion
+        self.uso = uso
 
     def getNumRotores(self):
         return self.numRotores
@@ -17,7 +17,7 @@ class Helicoptero(Aeronave):
     def getUso(self):
         return self.uso
 
-    def printInfo(self):
+    def print_info(self):
         super().printInfo()
 
     def obtenerDatos(self):

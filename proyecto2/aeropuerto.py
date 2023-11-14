@@ -16,10 +16,15 @@ class Aeropuerto:
             
         if 'torreDeControl' not in st.session_state:
             self.torreControl = TorreControl()
-            st.session_state['torreDeControl'] = self.torreControl
-            
+            st.session_state['torreDeControl'] = self.torreControl 
         else:
             self.torreControl = st.session_state['torreDeControl']
+
+        if "aerolinea" not in st.session_state:
+            st.session_state["aerolinea"]={}
+            self.aerolinea={}
+        else:
+            self.aerolinea=st.session_state["aerolinea"]
         
 
     @classmethod
@@ -37,12 +42,31 @@ class Aeropuerto:
         for i in self.vuelos:
             l.append(self.vuelos[i].printVuelo())
         return l
+    
+    def printDestinosReserva(self):
+        l=[]
+        for i in self.vuelos:
+            if(self.vuelos[i].disponible()):
+                l.append(self.vuelos[i].printVuelo())
+        return l
+    
+    def printAerolineasVuelos(self):
+        d={}
+        for key in self.aerolinea:
+            l=[]
+            for i in range(len(self.aerolinea[key].vuelos)):
+                l.append(self.aerolinea[key].vuelos[i].printVuelo())
+            d[key]=l
+        return d
 
     def disponibilidadVuelos(self):
         return bool(self.vuelos)
 
     def disponibilidadAeronaves(self):
         return self.torreControl.disponibilidadNaves()
+    
+    def disponibilidadAerolineas(self):
+        return bool(self.aerolinea)
 
     def asignarVuelo(self):
         for vuelo in self.vuelos:
@@ -54,3 +78,10 @@ class Aeropuerto:
     def agregarAeronave(self,id, nave):
         self.torreControl.aeronaves.append(nave)
         st.session_state["torreDeControl"]=self.torreControl
+
+    def agregarAerolinea(self, nombre, aerolinea):
+        self.aerolinea[nombre]=aerolinea
+        st.session_state["aerolinea"]=self.aerolinea
+
+    def asignVueloAerolinea(self,nombre,vuelo):
+        self.aerolinea[nombre].agregarVuelo(vuelo)

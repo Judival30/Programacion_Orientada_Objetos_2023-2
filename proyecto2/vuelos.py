@@ -18,10 +18,14 @@ class Vuelos:
         if self.num_pasajeros < self.capacidad:
             self.num_pasajeros += 1
         else:
-            print("Vuelo lleno")
+            self.estado = False
 
     def printVuelo(self):
         data = {"Fecha:": self.fecha, "Hora:": self.hora, "Ciudad de origen:": self.ciudad_origen,"Ciudad de destino:": self.ciudad_destino}
+        if self.estado:
+            data["Disponibilidad:"] = "disponible"
+        else:
+            data["Disponibilidad:"] = "Vuelo lleno"
         return data
 
     def disponible(self):

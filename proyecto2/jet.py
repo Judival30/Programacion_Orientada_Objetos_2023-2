@@ -2,16 +2,16 @@ from aeronave import Aeronave
 
 
 class JetPrivado(Aeronave):
-    def __init__(self, marca, capacidad, mediator):
-        super().__init__(marca, capacidad, mediator)
-        self.propietario = ""
-        self.listaServicios = []
-        self.listaDestinos = []
+    def __init__(self,id, marca, capacidad, mediator,modelo,velMax,anoFab,propietario,servicios,destinos):
+        super().__init__(id, marca, capacidad, mediator,modelo,velMax,anoFab)
+        self.propietario = propietario
+        self.listaServicios = servicios
+        self.listaDestinos = destinos
 
     def getPropietario(self):
         return self.propietario
 
-    def printInfo(self):
+    def print_info(self):
         super().printInfo()
 
     def obtenerDatos(self):

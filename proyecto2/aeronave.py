@@ -1,5 +1,6 @@
 from mediadorTrafico import MediadorTrafico
 from vuelos import Vuelos
+
 """ from tripulante import Tripulante  """
 
 
@@ -33,30 +34,31 @@ class Aeronave:
 
 
     def enviarMensaje(self, mensaje):
-        self.mediador.enviarMensaje(mensaje, self)
+        s = self.mediador.enviarMensaje(mensaje, self)
+        return s
 
     def despegar(self):
-        x = str(str(self.marca)+": Despegando.\n")
-        x += str(self.enviarMensaje("Despegando"+ str(self.marca)))
+        x = str(self.marca)+": Despegando.,"
+        x += (self.enviarMensaje(" Despegando "+ str(self.marca)))
        
         return x
 
     def aterrizar(self):
-        y=str(f"{self.marca}: Aterrizando.\n")
-        y+=str(self.enviarMensaje(f"Aterrizando {self.marca}"))
+        y =(str(self.marca) +" Aterrizando.,")
+        y += self.enviarMensaje(" Aterrizando " + str(self.marca))
         return y
     
     def actualizarPosicion(self, mensaje):
-        z=str(f"{self.marca}: Actualizando posición a {mensaje}\n")
-        z+=str(self.enviarMensaje(f"Nueva posición: {self.marca} {mensaje}"))
+        z = str(self.marca) + ": Actualizando posición a " + mensaje + ","
+        z += self.enviarMensaje(" Nueva posición: "+ str(self.marca) + " " + mensaje)
         return z
     
     def recibirMensaje(self, mensaje):
-        w=str(f"{self.marca} recibió mensaje: {mensaje}\n")
+        w = (str(self.marca)+ " recibió mensaje: " + mensaje +",")
         return w
     
     def asignarPuertaDeEmbarque(self, puerta, cod, hora):
-        y = (f"{self.marca} se dirige a la puerta de embarque: {puerta} para el vuelo #{cod} Hora: {hora}")
+        y = str(self.marca) + " se dirige a la puerta de embarque: " + str(puerta) + " para el vuelo #" + str(cod)+ " Hora:" + str(hora)
         return y
     def agregarVuelo(self, v : Vuelos):
         flag = self.estado
